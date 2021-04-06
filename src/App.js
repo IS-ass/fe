@@ -1,6 +1,6 @@
 import "./index.css";
 import "./App.css";
-import { Form, Checkbox, Layout, Input, Button } from "antd";
+import { Form, Checkbox, Layout, Input, Button, Modal } from "antd";
 import { useState } from "react";
 import axios from "axios";
 
@@ -50,11 +50,25 @@ function App() {
   const [check40, setCheck40] = useState(false);
   const [check41, setCheck41] = useState(false);
   const [result, setResult] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const onSubmit = (values) => {
     axios
       .post("http://localhost:5000", values)
-      .then((res) => setResult(res.data));
+      .then((res) => setResult(res.data))
+      .then(() => showModal());
   };
 
   return (
@@ -67,25 +81,25 @@ function App() {
           onChange={(e) => setCheck1(e.target.checked)}
           className="px-2"
         >
-          Chóng mặt lành tính do tư thế
+          Ngứa
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck2(value.target.checked)}
           className="px-2"
         >
-          AIDS
+          Phát ban da
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck3(value.target.checked)}
           className="px-2"
         >
-          Nổi mụn
+          Nổi mụn trên da thành sần
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck4(value.target.checked)}
           className="px-2"
         >
-          Gan nhiễm mỡ không do rượu
+          Hắt xì hơi liên tục
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck5(value.target.checked)}
@@ -109,49 +123,49 @@ function App() {
           onChange={(value) => setCheck8(value.target.checked)}
           className="px-2"
         >
-          THoái hoá cột sống cổ
+          Đau dạ dáy
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck9(value.target.checked)}
           className="px-2"
         >
-          Thuỷ đậu
+          Thừa acid dạ dày
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck10(value.target.checked)}
           className="px-2"
         >
-          Ứ mật mãn tính
+          Loét lưỡi
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck11(value.target.checked)}
           className="px-2"
         >
-          Cảm thông thường
+          Giãn cơ
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck12(value.target.checked)}
           className="px-2"
         >
-          Sốt xuất huyết
+          Nôn mửa
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck13(value.target.checked)}
           className="px-2"
         >
-          Béo phì
+          Đi tiểu rát
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck14(value.target.checked)}
           className="px-2"
         >
-          Trĩ hỗn hợp
+          Đái ra máu
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck15(value.target.checked)}
           className="px-2"
         >
-          Dị ứng thuốc
+          Mệt mỏi
         </Checkbox>
         <Checkbox
           onChange={(value) => setCheck16(value.target.checked)}
@@ -310,83 +324,84 @@ function App() {
           Viêm gan A
         </Checkbox>
         <Form
+          name="symptom"
           className="flex flex-wrap -mx-4 mt-10"
           layout="vertical"
           onFinish={onSubmit}
         >
           {check1 ? (
-            <Item className="w-1/2" label="Chóng mặt lành tính do tư thế">
+            <Item className="w-1/2" label="Ngứa">
               <Input />
             </Item>
           ) : null}
           {check2 ? (
-            <Item className="w-1/2" label="AIDS">
+            <Item className="w-1/2" label="Phát ban da">
               <Input />
             </Item>
           ) : null}
           {check3 ? (
-            <Item className="w-1/2" label="Nổi mụn">
+            <Item className="w-1/2" label="Nổi mụn trên da thành sần">
               <Input />
             </Item>
           ) : null}
           {check4 ? (
-            <Item className="w-1/2" label="Gan nhiễm mỡ không do rượu">
+            <Item className="w-1/2" label="Hắt xì hơi liên tục">
               <Input />
             </Item>
           ) : null}
           {check5 ? (
-            <Item className="w-1/2" label="Dị ứng">
+            <Item className="w-1/2" label="Lạnh cóng">
               <Input />
             </Item>
           ) : null}
 
           {check6 ? (
-            <Item className="w-1/2" label="Viêm khớp">
+            <Item className="w-1/2" label="Ớn lạnh">
               <Input />
             </Item>
           ) : null}
           {check7 ? (
-            <Item className="w-1/2" label="Hen phế quản">
+            <Item className="w-1/2" label="Đau khớp">
               <Input />
             </Item>
           ) : null}
           {check8 ? (
-            <Item className="w-1/2" label="Thoái hoá cột sống cổ">
+            <Item className="w-1/2" label="Đau dạ dáy">
               <Input />
             </Item>
           ) : null}
           {check9 ? (
-            <Item className="w-1/2" label="Thuỷ đậu">
+            <Item className="w-1/2" label="Thừa acid dạ dày">
               <Input />
             </Item>
           ) : null}
           {check10 ? (
-            <Item className="w-1/2" label="Ứ mật mãn tính">
+            <Item className="w-1/2" label="Loét lưỡi">
               <Input />
             </Item>
           ) : null}
           {check11 ? (
-            <Item className="w-1/2" label="Cảm thông thường">
+            <Item className="w-1/2" label="Giãn cơ">
               <Input />
             </Item>
           ) : null}
           {check12 ? (
-            <Item className="w-1/2" label="Sốt xuất huyết">
+            <Item className="w-1/2" label="Nôn mửa">
               <Input />
             </Item>
           ) : null}
           {check13 ? (
-            <Item className="w-1/2" label="Béo phì">
+            <Item className="w-1/2" label="Đi tiểu rát">
               <Input />
             </Item>
           ) : null}
           {check14 ? (
-            <Item className="w-1/2" label="Trĩ hỗn hợp">
+            <Item className="w-1/2" label="Đái ra máu">
               <Input />
             </Item>
           ) : null}
           {check15 ? (
-            <Item className="w-1/2" label="Dị ứng thuốc">
+            <Item className="w-1/2" label="Mệt mỏi">
               <Input />
             </Item>
           ) : null}
@@ -530,6 +545,14 @@ function App() {
             </Button>
           </Item>
         </Form>
+        <Modal
+          title="Basic Modal"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <p>{result}</p>
+        </Modal>
       </Content>
     </div>
   );
