@@ -4,10 +4,12 @@ import json
 import requests
 import numpy as np
 import ast
+from flask_cors import CORS
 
 from config import MODEL_PATH
 
 app = Flask(__name__)
+CORS(app)
 
 diseases = ['(vertigo) Paroymsal  Positional Vertigo', 'AIDS', 'Acne',
        'Alcoholic hepatitis', 'Allergy', 'Arthritis', 'Bronchial Asthma',
@@ -49,10 +51,11 @@ clf = load(MODEL_PATH)
 def hello():
        symptom = str.split(request.get_json(force=True)['symptom'], sep=",")
        disease = np.zeros(len(symptomDict.keys()))
+       
        for sym in symptom:
               disease[symptomDict[sym]] = 1
-       result = clf.predict([disease])
-       return {"result": diseases[result]}
+       result = clf.predict([disease])[0]
+       return {"result": diseasesVN[result]}
 
 
 if __name__ == '__main__':
