@@ -1,0 +1,42 @@
+feature_1,feature_2,feature_3,disease
+itching,skin_rash,nodal_skin_eruptions,Fungal infection
+continuous_sneezing,shivering,chills,Allergy
+stomach_pain,acidity,ulcers_on_tongue,GERD
+itching,vomiting,yellowish_skin,Chronic cholestasis
+itching,skin_rash,stomach_pain,Drug Reaction
+vomiting,indigestion,loss_of_appetite,Peptic ulcer diseae
+muscle_wasting,patches_in_throat,high_fever,AIDS
+fatigue,weight_loss,restlessness,Diabetes 
+vomiting,sunken_eyes,dehydration,Gastroenteritis
+fatigue,cough,high_fever,Bronchial Asthma
+headache,chest_pain,dizziness,Hypertension 
+acidity,indigestion,headache,Migraine
+back_pain,weakness_in_limbs,neck_pain,Cervical spondylosis
+vomiting,headache,weakness_of_one_body_side,Paralysis (brain hemorrhage)
+itching,vomiting,fatigue,Jaundice
+chills,vomiting,high_fever,Malaria
+itching,skin_rash,fatigue,Chicken pox
+skin_rash,chills,joint_pain,Dengue
+chills,vomiting,fatigue,Typhoid
+joint_pain,vomiting,yellowish_skin,hepatitis A
+itching,fatigue,lethargy,Hepatitis B
+fatigue,yellowish_skin,nausea,Hepatitis C
+joint_pain,vomiting,fatigue,Hepatitis D
+joint_pain,vomiting,fatigue,Hepatitis E
+vomiting,yellowish_skin,abdominal_pain,Alcoholic hepatitis
+chills,vomiting,fatigue,Tuberculosis
+continuous_sneezing,chills,fatigue,Common Cold
+chills,fatigue,cough,Pneumonia
+constipation,pain_during_bowel_movements,pain_in_anal_region,Dimorphic hemmorhoids(piles)
+vomiting,breathlessness,sweating,Heart attack
+fatigue,cramps,bruising,Varicose veins
+fatigue,weight_gain,cold_hands_and_feets,Hypothyroidism
+fatigue,mood_swings,weight_loss,Hyperthyroidism
+vomiting,fatigue,anxiety,Hypoglycemia
+joint_pain,neck_pain,knee_pain,Osteoarthristis
+muscle_weakness,stiff_neck,swelling_joints,Arthritis
+vomiting,headache,nausea,(vertigo) Paroymsal  Positional Vertigo
+skin_rash,pus_filled_pimples,blackheads,Acne
+burning_micturition,bladder_discomfort,foul_smell_of urine,Urinary tract infection
+skin_rash,joint_pain,skin_peeling,Psoriasis
+skin_rash,high_fever,blister,Impetigo
