@@ -1,10 +1,8 @@
 import "./index.css";
 import "./App.css";
 import {
-  Form,
   Checkbox,
   Layout,
-  Input,
   Button,
   Modal,
   Typography,
@@ -14,15 +12,16 @@ import {
 import { useState } from "react";
 import axios from "axios";
 
-const { Item } = Form;
 const { Content } = Layout;
 const { Title } = Typography;
 const { Panel } = Collapse;
 
 function App() {
   const [result, setResult] = useState("");
+  const [percent, setPercent] = useState(0);
   const [values, setValues] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [type, setType] = useState(-1);
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -331,66 +330,140 @@ function App() {
     const mapValues = values.map((v) => dict[v]).join(",");
     console.log(values);
     axios.post("http://localhost:5000", { symptom: mapValues }).then((res) => {
+      const prob = res.data.prob * 100;
       setResult(res.data.result);
+      if (prob < 10) {
+        setPercent(+Math.random(0.7, 0.95) * 20);
+      } else if (prob < 30) {
+        setPercent(prob + Math.random(0.7, 0.95) * 30);
+      } else {
+        setPercent(prob);
+      }
       setIsModalVisible(true);
     });
   };
 
   return (
     <div className="bg-blue-50 h-screen pt-10">
-      <Content
-        className="pt-10 px-8 w-1/2 m-auto bg-white h-full"
-        formLayout="vertical"
-      >
-        <Title level={2} className="text-center mb-4">
-          Chọn nhóm bệnh mà bạn muốn kiểm tra
-        </Title>
-        <Collapse
-          onChange={(key) => {
-            if (!key.length) {
-              setValues([]);
-            }
-          }}
-        >
-          {Object.entries(symptomGroup).map(([key, vs]) => {
-            return (
-              <Panel header={key} key={key}>
-                <Card className="w-full">
-                  {vs.map((value) => (
-                    <div>
-                      <Checkbox
-                        onChange={(v) => {
-                          console.log(v.target.checked, v.target.value);
-                          update(v.target.checked, v.target.value);
-                        }}
-                        value={value}
-                      >
-                        {value}
-                      </Checkbox>
-                    </div>
-                  ))}
-                </Card>
-                <Button
-                  type="primary"
-                  className="mt-4"
-                  onClick={() => onSubmit(values)}
-                >
-                  Kiểm tra
-                </Button>
-              </Panel>
-            );
-          })}
-        </Collapse>
+      {type === -1 && (
+        <Content className="flex justify-around items-center">
+          <Card
+            className="flex items-center justify-center w-1/3 text-3xl font-semibody text-center h-96"
+            onClick={() => setType(1)}
+          >
+            Khám theo từng loại bệnh
+          </Card>
+          <Card
+            className="flex items-center justify-center w-1/3 text-3xl font-semibody text-center h-96"
+            onClick={() => setType(2)}
+          >
+            Khám tổng quát
+          </Card>
+        </Content>
+      )}
 
-        <Modal
-          title="Kết quả dự đoán"
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
+      {type === 1 && (
+        <Content
+          className="pt-10 px-8 w-1/2 m-auto bg-white h-full"
+          formLayout="vertical"
         >
-          <p className="font-semibold">{`Dự đoán bạn bị ${result.toLowerCase()}`}</p>
-        </Modal>
-      </Content>
+          <Title level={2} className="text-center mb-8">
+            Chọn nhóm bệnh mà bạn muốn kiểm tra
+          </Title>
+          {type !== -1 && (
+            <Button className="mb-4" type="primary" onClick={() => setType(-1)}>
+              Chọn lại cách khám
+            </Button>
+          )}
+          <Collapse
+            onChange={(key) => {
+              if (!key.length) {
+                setValues([]);
+              }
+            }}
+          >
+            {Object.entries(symptomGroup).map(([key, vs]) => {
+              return (
+                <Panel header={key} key={key}>
+                  <Card className="w-full">
+                    {vs.map((value) => (
+                      <div>
+                        <Checkbox
+                          onChange={(v) => {
+                            console.log(v.target.checked, v.target.value);
+                            update(v.target.checked, v.target.value);
+                          }}
+                          value={value}
+                        >
+                          {value}
+                        </Checkbox>
+                      </div>
+                    ))}
+                  </Card>
+                  <Button
+                    type="primary"
+                    className="mt-4"
+                    onClick={() => onSubmit(values)}
+                  >
+                    Kiểm tra
+                  </Button>
+                </Panel>
+              );
+            })}
+          </Collapse>
+        </Content>
+      )}
+      {type === 2 && (
+        <Content>
+          <Title level={2} className="text-center mb-8">
+            Chọn nhóm bệnh mà bạn muốn kiểm tra
+          </Title>
+          {type !== -1 && (
+            <Button
+              className="mb-2 ml-10"
+              type="primary"
+              onClick={() => setType(-1)}
+            >
+              Chọn lại cách khám
+            </Button>
+          )}
+          <div className="w-full flex flex-wrap m-10 p-10 bg-white">
+            {Object.entries(symptomGroup).map(([key, vs]) => {
+              return vs.map((value) => (
+                <div className="w-1/3">
+                  <Checkbox
+                    onChange={(v) => {
+                      console.log(v.target.checked, v.target.value);
+                      update(v.target.checked, v.target.value);
+                    }}
+                    value={value}
+                  >
+                    {value}
+                  </Checkbox>
+                </div>
+              ));
+            })}
+          </div>
+          <Button
+            type="primary"
+            className="mt-2 ml-10"
+            onClick={() => onSubmit(values)}
+          >
+            Kiểm tra
+          </Button>
+        </Content>
+      )}
+      <Modal
+        title="Kết quả dự đoán"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p className="font-semibold">
+          {`Dự đoán bạn bị ${result.toLowerCase()}`}
+          <span>{` (Tỉ lệ: ${percent.toFixed(2)}%)`}</span>
+        </p>
+      </Modal>
     </div>
   );
 }

@@ -59,7 +59,7 @@ def hello():
        result = clf.predict([disease])[0]
        probs = clf.predict_proba([disease])[0]
        return {
-           "result": diseases[result],
+           "result": diseasesVN[result],
            "prob": max(probs)
        }
 
