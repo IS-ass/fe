@@ -5,7 +5,7 @@ import requests
 import numpy as np
 import ast
 
-from config import MODEL_PATH
+from config import MODEL_PATH, MODEL_PATH_CATEGORICAL
 
 app = Flask(__name__)
 
@@ -42,17 +42,24 @@ with open("../data/symptom.json", "r") as f:
        jsonStr = f.read()
 symptomDict = json.loads(jsonStr)
 
-clf = load(MODEL_PATH)
+clf = load(MODEL_PATH_CATEGORICAL)
 
 
 @app.route('/', methods=['POST'])
 def hello():
        symptom = str.split(request.get_json(force=True)['symptom'], sep=",")
-       disease = np.zeros(len(symptomDict.keys()))
-       for sym in symptom:
-              disease[symptomDict[sym]] = 1
-       result = clf.predict([disease])
-       return {"result": diseases[result]}
+       print(symptom)
+       disease = list(map(lambda s: symptomDict[s], symptom))
+       if len(disease) > 3:
+           disease = disease[:3]
+       elif len(disease) < 3:
+           disease = disease + [disease[0]] * (3 - len(disease))
+       result = clf.predict([disease])[0]
+       probs = clf.predict_proba([disease])[0]
+       return {
+           "result": diseases[result],
+           "prob": max(probs)
+       }
 
 
 if __name__ == '__main__':
