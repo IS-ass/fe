@@ -4,10 +4,12 @@ import json
 import requests
 import numpy as np
 import ast
+from flask_cors import CORS
 
 from config import MODEL_PATH, MODEL_PATH_CATEGORICAL
 
 app = Flask(__name__)
+CORS(app)
 
 diseases = ['(vertigo) Paroymsal  Positional Vertigo', 'AIDS', 'Acne',
        'Alcoholic hepatitis', 'Allergy', 'Arthritis', 'Bronchial Asthma',
@@ -48,7 +50,7 @@ clf = load(MODEL_PATH_CATEGORICAL)
 @app.route('/', methods=['POST'])
 def hello():
        symptom = str.split(request.get_json(force=True)['symptom'], sep=",")
-       print(symptom)
+       # print(symptom)
        disease = list(map(lambda s: symptomDict[s], symptom))
        if len(disease) > 3:
            disease = disease[:3]
@@ -60,6 +62,7 @@ def hello():
            "result": diseases[result],
            "prob": max(probs)
        }
+
 
 
 if __name__ == '__main__':
